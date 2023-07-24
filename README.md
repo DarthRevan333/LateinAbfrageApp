@@ -1,7 +1,7 @@
 # LateinAbfrageApp
-Eine App für verschiedene Plattformen, primär Android, mit welcher man sich über Latein Vokabel bzw. über deren Formen  abfragen lassen kann. (bis jetzt ausschließlich Verben)
+Eine App für verschiedene Plattformen, primär Android, mit welcher man sich über Latein-Vokabel bzw. über deren Formen  abfragen lassen kann. (bis jetzt ausschließlich Verben)
 # APK Download:
-Die .apk Datei kann man unter folgendem Link heruntergeladen werden: https://drive.google.com/file/d/1lk6OUJONAr3VvJgqxJXJtTlOYAoVCwAb/view?usp=sharing
+Die .apk Datei kann unter folgendem Link heruntergeladen werden: https://drive.google.com/file/d/1lk6OUJONAr3VvJgqxJXJtTlOYAoVCwAb/view?usp=sharing
 # Einstellungen in der App
 Bei der Auswahl der Schwierigkeit entsprechen folgende Schwierigkeiten folgenden Sekundenangaben pro Frame des Hammers, wobei es ingesamt 20 Frames gibt: Sehr Einfach -> 2.0s; Einfach -> 1.2s; Moderat -> 0.65s; Schwierig -> 0.35s
 
