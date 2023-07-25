@@ -220,20 +220,6 @@ class BaseApp(MDApp):
     def toggle_chip(self, obj) -> None:
         obj.toggled = not obj.toggled
 
-    def increase_counter(self, root) -> None:
-        nval = int(root.ids.current_count.text) + 1
-        if nval > 0:
-            root.ids.current_count.text = str(nval)
-
-    def decrease_counter(self, root) -> None:
-        nval = int(root.ids.current_count.text)-1
-        if nval > 0:
-            root.ids.current_count.text = str(nval)
-
-    @mainthread
-    def set_counter(self, root, value: str) -> None:
-        root.ids.current_count.text = value
-
     @staticmethod
     def toggle_multi_chip(selected):
         selected.toggled = True

@@ -160,55 +160,6 @@
     halign: "center"
     pos_hint: {"center_x": .5}
 
-<Counter@MDCard>
-    border_radius: 35
-    radius: [35]
-    size_hint: None, None
-    height: 200
-    width: 365
-    line_color: app.theme_cls.disabled_hint_text_color
-    pos_hint: {"center_x": 0.5}
-    title_text: ""
-
-    MDBoxLayout:
-        orientation: "vertical"
-        pos_hint: {"center_x": 0.5}
-
-        Widget:
-            size_hint_y: 0.1
-
-        MDLabel:
-            size_hint_y: 0.15
-            text: root.title_text
-            halign: "center"
-            bold: True
-
-        MDBoxLayout:
-            size_hint_y: 0.75
-            orientation: "horizontal"
-
-            MDIconButton:
-                icon: 'plus-box-outline'
-                pos_hint: {'center_y': .5, 'center_x': .25}
-                on_press: app.increase_counter(root)
-                theme_text_color: "Custom"
-                text_color: (0, 1, 0, 1)
-                icon_size: 60
-
-            MDLabel:
-                id: current_count
-                font_style: 'H5'
-                halign: 'center'
-                pos_hint: {'center_y': .5, 'center_x': .5}
-
-            MDIconButton:
-                icon: 'minus-box-outline'
-                pos_hint: {'center_y': .5, 'center_x': .75}
-                on_press: app.decrease_counter(root)
-                theme_text_color: "Custom"
-                text_color: (1, 0, 0, 1)
-                icon_size: 60
-
 
 MDBoxLayout:
     orientation: "vertical"
@@ -306,7 +257,7 @@ MDBoxLayout:
 
             RelativeLayout:
                 size_hint: 0.2, 0.4
-                y: timed_out_label.y * 4/5
+                y: timed_out_label.y * 2/3
                 pos_hint: {"right": .97}
 
                 MDBoxLayout:
@@ -320,6 +271,9 @@ MDBoxLayout:
                         id: incorrect_counter
                         text: "Falsch: 0"
                         text_color: (1, 0, 0, 1)
+                    ScoreLabel:
+                        id: level_counter
+                        text_color: (1, 0.6, 0, 1)
 
         MDBottomNavigationItem:
             name: "screen 2"
@@ -474,6 +428,10 @@ MDBoxLayout:
                         id: exclude_supina
                         text: "Supina ausschließen?"
 
+                    SettingsChip:
+                        id: use_levels
+                        text: "Levelsystem benutzen?"
+
                     Widget:
 
                     MDLabel:
@@ -500,7 +458,7 @@ MDBoxLayout:
                     Widget:
 
                     MDLabel:
-                        id: score_label
+                        id: source_label
 						text: "Hinweis: Alle Daten stammen von www.frag-caesar.de"
                         font_style: "Subtitle1"
 						pos_hint: {"center_x": 0.545}
@@ -508,5 +466,5 @@ MDBoxLayout:
 						size: self.texture_size
 
                     ItemSeparator:
-                        height: score_label.height
+                        height: source_label.height
 

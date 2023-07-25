@@ -81,6 +81,7 @@ class LateinVerbenApp(BaseApp):
         self.root.ids.ignore_gender_geru.toggled = toggle_settings.get("ignore_gender_geru", False)
         self.root.ids.exclude_imp2.toggled = toggle_settings.get("exclude_imp2", True)
         self.root.ids.exclude_supina.toggled = toggle_settings.get("exclude_supina", True)
+        self.root.ids.use_levels.toggled = toggle_settings.get("use_levels", True)
 
     def adjust_block_size(self, *_):
         x, y = self.GIF.get_norm_image_size()
@@ -92,9 +93,11 @@ class LateinVerbenApp(BaseApp):
     def set_correct_incorrect_counters(self):
         self.root.ids.correct_counter.text = self.options.get("counters", {}).get("correct", "Richtig: 0")
         self.root.ids.incorrect_counter.text = self.options.get("counters", {}).get("incorrect", "Falsch: 0")
+        if self.from_toggle_settings("use_levels"):
+            self.root.ids.level_counter.text = f"Level: {self.options.get('level', 1)}-{self.options.get('streak', 0)+1}"
 
     def reset_correct_incorrect_counters(self):
-        if "counters" in self.options.keys():
+        if "counters" in self.options:
             self.options.get("counters", {}).update({"correct": "Richtig: 0", "incorrect": "Falsch: 0"})
         else:
             self.options.update({"counters": {"correct": "Richtig: 0", "incorrect": "Falsch: 0"}})
@@ -194,10 +197,74 @@ class LateinVerbenApp(BaseApp):
     @mainthread
     def increase_correct_score(self):
         self.root.ids.correct_counter.text = f"Richtig: {int(self.root.ids.correct_counter.text[self.root.ids.correct_counter.text.rfind(' ')+1:])+1}"
+        if self.from_toggle_settings("use_levels"):
+            self.options.update({"streak": (streak := self.options.get("streak", 0)+1)})
+            self.determine_level(streak)
 
     @mainthread
     def increase_incorrect_score(self):
         self.root.ids.incorrect_counter.text = f"Falsch: {int(self.root.ids.incorrect_counter.text[self.root.ids.incorrect_counter.text.rfind(' ')+1:])+1}"
+        if self.from_toggle_settings("use_levels"):
+            self.options.update({"streak": (streak := self.options.get("streak", 0)-1)})
+            self.determine_level(streak)
+
+    def determine_level(self, streak):
+        current_level = self.options.get("level", 1)
+        if streak > -2:
+            if not current_level and streak > 1:
+                self.options.update({"streak": 0, "level": current_level + 1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            elif current_level < 3 and streak > 2:
+                self.options.update({"streak": 0, "level": current_level + 1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            elif current_level < 5 and streak > 3:
+                self.options.update({"streak": 0, "level": current_level+1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            elif current_level < 8 and streak > 5:
+                self.options.update({"streak": 0, "level": current_level+1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            elif current_level < 10 and streak > 6:
+                self.options.update({"streak": 0, "level": current_level+1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            elif current_level < 13 and streak > 8:
+                self.options.update({"streak": 0, "level": current_level + 1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            elif streak > 9:
+                self.options.update({"streak": 0, "level": current_level+1})
+                self.root.ids.level_counter.text = f"Level: {current_level+1}-1"
+            else:
+                self.root.ids.level_counter.text = f"Level: {current_level}-{streak + 1}"
+        elif streak < -1 and current_level:
+            current_level -= 1
+            self.options.update({"streak": 0, "level": current_level})
+            if not current_level:
+                new_streak = 1
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
+            elif current_level < 3:
+                new_streak = 2
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
+            elif current_level < 5:
+                new_streak = 3
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
+            elif current_level < 8:
+                new_streak = 5
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
+            elif current_level < 10:
+                new_streak = 6
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
+            elif current_level < 13:
+                new_streak = 8
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
+            else:
+                new_streak = 9
+                self.options.update({"streak": new_streak, "level": current_level})
+                self.root.ids.level_counter.text = f"Level: {current_level}-{new_streak+1}"
 
     def remove_time_is_up_label(self):
         self.root.ids.timed_out_label.text = ""
@@ -207,8 +274,14 @@ class LateinVerbenApp(BaseApp):
         self.GIF.stop(keep_schedule_ref=True)
 
     def animate_gif(self):
-        self.GIF.start_animation_schedule(target_screen=[self.root.ids.nav.children[1], "screen 1"], delay=self.options.get("delay", 1.2))
+        self.GIF.start_animation_schedule(target_screen=[self.root.ids.nav.children[1], "screen 1"], delay=self.options.get("delay", 1.2) * self.get_level_increase())
         self.root.ids.validate_field.set_text_func = lambda *_: self.GIF.modify_delay(1.25, tolerance_cap=len(self.current_question[1]), max_delay_increase_factor=1.75)
+
+    def get_level_increase(self) -> int:
+        if self.from_toggle_settings("use_levels"):
+            return {0: 1.5, 1: 1.2, 2: 1.1, 3: 1, 4: 0.95, 5: 0.9, 6: 0.85, 7: 0.8, 8: 0.75, 9: 0.7, 10: 0.65, 11: 0.6,
+                    12: 0.55}.get(level, 1) if (level := self.options.get("level", 1)) < 13 else 0.5
+        return 1
 
     def start_quiz(self):
         if self.stopped:
@@ -291,7 +364,7 @@ class LateinVerbenApp(BaseApp):
     def toggle_chip(self, obj) -> None:
         super().toggle_chip(obj)
         if hasattr(obj, "toggling_options"):
-            if "toggled" in self.options.keys():
+            if "toggled" in self.options:
                 self.options.get("toggled").update({obj.parent.parent.parent.children[0].text: obj.toggled})
             else:
                 self.options.update({"toggled": {obj.parent.parent.parent.children[0].text: obj.toggled}})
@@ -305,9 +378,15 @@ class LateinVerbenApp(BaseApp):
             self.set_toggle_settings(obj.toggled, "exclude_imp2")
         elif obj.text == "Supina ausschließen?":
             self.set_toggle_settings(obj.toggled, "exclude_supina")
+        elif obj.text == "Levelsystem benutzen?":
+            self.set_toggle_settings(obj.toggled, "use_levels")
+            if not obj.toggled:
+                self.root.ids.level_counter.text = ""
+            else:
+                self.root.ids.level_counter.text = f"Level: {self.options.get('level', 1)}-{self.options.get('streak', 0)+1}"
 
     def set_toggle_settings(self, state, value):
-        if "toggle_settings" in self.options.keys():
+        if "toggle_settings" in self.options:
             self.options.get("toggle_settings").update({value: state})
         else:
             self.options.update({"toggle_settings": {value: state}})
@@ -367,7 +446,7 @@ class LateinVerbenApp(BaseApp):
                 self.root.ids.stop_btn.icon_color = 0.75, 0.92, 0.75, 1
                 self.root.ids.stop_btn.text = "Weiter"
             else:
-                self.GIF.start_animation_schedule(target_screen=[self.root.ids.nav.children[1], "screen 1"],delay=self.options.get("delay", 1.2), instant=True)
+                self.GIF.start_animation_schedule(target_screen=[self.root.ids.nav.children[1], "screen 1"],delay=self.options.get("delay", 1.2) * self.get_level_increase(), instant=True)
                 self.stopped = False
                 self.root.ids.stop_btn.ripple_color = (1, 0, 0, 0.3)
                 self.root.ids.stop_btn.md_bg_color = (0.686, 0.133, 0.133)
