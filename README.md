@@ -2,7 +2,8 @@
 Eine App für verschiedene Plattformen, primär Android, mit welcher man sich über Latein-Vokabel bzw. über deren Formen abfragen lassen kann. (bis jetzt ausschließlich Verben)
 
 # Fortführung
-Es bestehen keine Pläne diese App in Zukunft weiterzuentwickeln.
+Es bestehen keine Pläne, diese App in Zukunft weiterzuentwickeln.
+
 Falls es dennoch dazu kommen sollte, wird es mit einem Umstieg auf Kotlin einhergehen, bei dem die im Moment auf Python basierte App und der momentane Code jener nicht mehr verwendet werden können.
 
 # APK Download:
