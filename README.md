@@ -4,7 +4,7 @@ Eine App für verschiedene Plattformen, primär Android, mit welcher man sich ü
 # Fortführung
 Es bestehen keine Pläne, diese App in Zukunft weiterzuentwickeln.
 
-Falls es dennoch dazu kommen sollte, wird es mit einem Umstieg auf Kotlin einhergehen, bei dem die im Moment auf Python basierte App und der momentane Code jener nicht mehr verwendet werden können.
+Falls es dennoch dazu kommen sollte, wird es mit einem Umstieg auf Kotlin einhergehen, bei dem die im Moment auf Python basierte App und ihr momentane Code nicht mehr verwendet werden kann.
 
 # APK Download:
 Die .apk Datei kann nebem dem Download durch Github auch unter folgendem Link heruntergeladen werden: https://drive.google.com/file/d/12JAYT5_ML4A7CWbmSfObGpigIaZo4ERZ/view?usp=sharing
