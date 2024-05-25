@@ -7,7 +7,7 @@ Es bestehen keine Pläne, diese App in Zukunft weiterzuentwickeln.
 Falls es dennoch dazu kommen sollte, wird es mit einem Umstieg auf Kotlin einhergehen, bei dem die im Moment auf Python basierte App und ihr momentane Code nicht mehr verwendet werden kann.
 
 # APK Download:
-Die .apk Datei kann nebem dem Download durch Github auch unter folgendem Link heruntergeladen werden: https://drive.google.com/file/d/12JAYT5_ML4A7CWbmSfObGpigIaZo4ERZ/view?usp=sharing
+Die .apk Datei kann nebem dem Download durch Github auch [hier](https://drive.google.com/file/d/1KrgDBvZxSuWSTSY2BC9TZ2YpV6uuJXhK/view?usp=sharing) heruntergeladen werden.
 
 # Hinweise zur App
 Bei der Auswahl der Schwierigkeit entsprechen folgende Schwierigkeiten folgenden Sekundenangaben pro Frame des Hammers, wobei es insgesamt 20 Frames gibt: Sehr Einfach -> 2.0s; Einfach -> 1.2s; Moderat -> 0.65s; Schwierig -> 0.35s
